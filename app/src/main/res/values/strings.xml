@@ -1,0 +1,51 @@
+<resources>
+
+    <!-- Application Title -->
+    <string name="app_name">Millard West Mower Service</string>
+
+    <!-- Navigation Drawer Strings -->
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <!-- Login Page Strings -->
+    <string name="no_username_error">You must enter a username!</string>
+    <string name="no_password_error">You must enter a password!</string>
+
+    <!-- Main Activity Strings -->
+    <string name="feedback_ok">Thank you for sending feedback!</string>
+    <string name="feedback_failed">Failed to send feedback!</string>
+    <string name="share_text">Want your mower sharpened, repaired or winterized? Help Millard West raise funds for Industrial Technology &amp; Computer Science all while helping our students to learn and grow!</string>
+    <string name="share_subject">Share Millard West Mower Service</string>
+
+    <!-- QR Scanner Strings -->
+    <string name="permission_denied">Permission was not granted</string>
+    <string name="permission_explain">Camera permission is needed to show the QR code scanner</string>
+
+    <!-- Register Page Strings -->
+    <string name="blank_name">You must enter your name!</string>
+    <string name="blank_username">You must enter a username!</string>
+    <string name="blank_email">You must enter an email!</string>
+    <string name="invalid_email">Your email is invalid!</string>
+    <string name="missing_phone">You must enter a phone number and an alternate number!</string>
+    <string name="only_numbers">Phone numbers must only contain numbers!</string>
+    <string name="eight_chars">Your password is under 8 characters!</string>
+    <string name="pass_is_username">Your password is too close to your username!</string>
+    <string name="pass_no_match">Your passwords do not match!</string>
+    <string name="too_common">Your password is too common!</string>
+    <string name="blank_pin">You must enter a 4-digit security pin!</string>
+    <string name="pin_only_num">Your pin must only contain numbers!</string>
+    <string name="success">Successfully Registered!</string>
+
+    <!-- Mower Registration Strings -->
+    <string name="blank_make">You must enter a make!</string>
+    <string name="blank_model">You must enter a model!</string>
+    <string name="blank_date">You must enter a drop-off date!</string>
+    <string name="blank_address">You must enter your address!</string>
+    <string name="blank_condition">Please enter the condition of your mower!</string>
+    <string name="submit_success">Successfully entered your mower!</string>
+
+    <!-- Other Assorted Strings -->
+    <string name="action_settings">Settings</string>
+    <string name="banner_ad_unit_id">ca-app-pub-5640232104571176/4596474047</string>
+
+</resources>
