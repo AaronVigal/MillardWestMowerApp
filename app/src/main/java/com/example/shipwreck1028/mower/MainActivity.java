@@ -19,10 +19,9 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.ads.AdSize;
-import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -42,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         // Get the extra text with key "key" from the QRScannerActivity
         // and set the TextView to that text, will be implemented later.
-        Log.w(className,"Getting QR Code");
+        Log.w(className, "Getting QR Code");
         Intent startingIntent = getIntent();
         qr_value = startingIntent.getStringExtra("key");
         TextView t = (TextView) findViewById(R.id.qr_code);
@@ -50,20 +49,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         t.setText(qr_value);
 
         // Setup the Toolbar
-        Log.w(className,"Adding Toolbar to MainActivity.java");
+        Log.w(className, "Adding Toolbar to MainActivity.java");
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         // Add the Drawer the the side and a listener to handle the intent.
         // You can find the action called from the drawer in the onNavigationItemSelected method.
-        Log.w(className,"Adding Navigation Drawer to MainActivity.java");
+        Log.w(className, "Adding Navigation Drawer to MainActivity.java");
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
         // Add a navigation View to the Main activity.
-        Log.w(className,"Adding a navigation View to MainActivity.java");
+        Log.w(className, "Adding a navigation View to MainActivity.java");
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
@@ -78,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            Log.w(className,"Back Button Pressed");
+            Log.w(className, "Back Button Pressed");
         }
     }
 
@@ -116,42 +115,42 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         id = item.getItemId();
         if (id == R.id.nav_camera) {
             // Scan a QR Code
-            Log.w(className,"Opening QR Code Scanner");
+            Log.w(className, "Opening QR Code Scanner");
             Intent newRegisterWindow = new Intent(this, QRScannerActivity.class);
             startActivity(newRegisterWindow);
         } else if (id == R.id.nav_gallery) {
             // View the current status of the mower
             // This could possibly just become the landing page for the app
             // so we will see how that goes.
-            Log.w(className,"Opening Mower Status");
+            Log.w(className, "Opening Mower Status");
         } else if (id == R.id.nav_manage) {
             // Submit A New Mower to the database
-            Log.w(className,"Opening Mower Submission form");
+            Log.w(className, "Opening Mower Submission form");
             Intent sendStuff = new Intent(this, RegisterMowerActivity.class);
             startActivity(sendStuff);
         } else if (id == R.id.nav_share) {
             // Activate the sharing button feature
-            Log.w(className,"Triggered share button");
+            Log.w(className, "Triggered share button");
             Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
             sharingIntent.setType("text/plain");
             sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, R.string.share_subject);
             sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, R.string.share_text);
             startActivity(Intent.createChooser(sharingIntent, "Share via"));
-        } else if(id == R.id.nav_profile){
+        } else if (id == R.id.nav_profile) {
             // Open the Profile Page for the current user
-            Log.w(className,"Opening profile page");
-        } else if(id == R.id.nav_logout){
+            Log.w(className, "Opening profile page");
+        } else if (id == R.id.nav_logout) {
             // Logout button which actually just sends you back to the LoginScreen
             // Fun fact, this whole app kinda fakes the whole validation process ;)
-            Log.w(className,"Logging out...");
+            Log.w(className, "Logging out...");
             Intent sendStuff = new Intent(this, LoginActivity.class);
             startActivity(sendStuff);
         } else if (id == R.id.nav_send) {
             // Send application feedback to the developed (me) via email.
-            Log.w(className,"Sending feedback via e-mail");
+            Log.w(className, "Sending feedback via e-mail");
             Intent feedbackEmail = new Intent(Intent.ACTION_SEND);
             feedbackEmail.setType("text/email");
-            feedbackEmail.putExtra(Intent.EXTRA_EMAIL, new String[] {"admin@aaronvigal.com"});
+            feedbackEmail.putExtra(Intent.EXTRA_EMAIL, new String[]{"admin@aaronvigal.com"});
             feedbackEmail.putExtra(Intent.EXTRA_SUBJECT, "Feedback");
             int STATUS = 0;
             startActivityForResult(Intent.createChooser(feedbackEmail, "Send Feedback:"), STATUS);
@@ -161,13 +160,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
-    public void onActivityResult(int requestCode, int resultCode, Intent data){
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == RESULT_OK) {
-            Log.w(className,"Feedback Success");
+        if (resultCode == RESULT_OK) {
+            Log.w(className, "Feedback Success");
             Toast.makeText(this, R.string.feedback_ok, Toast.LENGTH_SHORT).show();
         } else {
-            Log.w(className,"Feedback Failed");
+            Log.w(className, "Feedback Failed");
             Toast.makeText(this, R.string.feedback_failed, Toast.LENGTH_SHORT).show();
         }
     }

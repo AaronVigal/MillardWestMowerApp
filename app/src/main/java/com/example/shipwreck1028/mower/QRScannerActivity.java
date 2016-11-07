@@ -1,6 +1,5 @@
 package com.example.shipwreck1028.mower;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -16,8 +15,8 @@ import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 public class QRScannerActivity extends Activity implements ZXingScannerView.ResultHandler {
 
-    private ZXingScannerView mScannerView;
     int REQUEST_CAMERA = 0;
+    private ZXingScannerView mScannerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +29,7 @@ public class QRScannerActivity extends Activity implements ZXingScannerView.Resu
      * Check for camera permission and fire up the camera viewer
      * to start reading QR Codes using the ZXingScannerView.
      */
-    public void showCamera(){
+    public void showCamera() {
         // Don't allow the screen to fall asleep while they are trying
         // to scan a QR Code.
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -42,8 +41,8 @@ public class QRScannerActivity extends Activity implements ZXingScannerView.Resu
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             // Check to see if they have granted the application permission to use the camera
             // and to write to external storage to save the photo.
-            if(checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED &&
-                    checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+            if (checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED &&
+                    checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                 // Run the QR Code Scanner using ZXingScannerView Library.
                 mScannerView = new ZXingScannerView(this);
                 setContentView(mScannerView);
@@ -52,7 +51,7 @@ public class QRScannerActivity extends Activity implements ZXingScannerView.Resu
             } else {
                 // We were denied Camera permission so by Android requirements, we are supposed to
                 // explain why we need them and then ask them for permission again.
-                if(shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)){
+                if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
                     Toast.makeText(this, R.string.permission_explain, Toast.LENGTH_SHORT).show();
                 }
                 requestPermissions(new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CAMERA);
@@ -61,10 +60,10 @@ public class QRScannerActivity extends Activity implements ZXingScannerView.Resu
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults){
-        if(requestCode == REQUEST_CAMERA){
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == REQUEST_CAMERA) {
             // Yay!!! We got permission! Start the camera for QR Scanning.
-            if(grantResults[0] == PackageManager.PERMISSION_GRANTED &&
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED &&
                     grantResults[1] == PackageManager.PERMISSION_GRANTED) {
                 showCamera();
             } else {
@@ -79,16 +78,16 @@ public class QRScannerActivity extends Activity implements ZXingScannerView.Resu
     }
 
     @Override
-    public void handleResult(Result result){
+    public void handleResult(Result result) {
         // This is where we do some sketchy business and we attach the result of the
         // QR Code Scan to the end of our new Intent, essentially passing the value
         // from window to window.
-        if(result.getBarcodeFormat().toString().equals("qrcode")) {
+        if (result.getBarcodeFormat().toString().equals("qrcode")) {
             String qr_val = result.getText();
             Intent sendStuff = new Intent(this, MainActivity.class);
             sendStuff.putExtra("key", qr_val);
             startActivity(sendStuff);
-        }else{
+        } else {
             mScannerView.resumeCameraPreview(this);
         }
     }

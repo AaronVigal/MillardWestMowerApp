@@ -21,9 +21,10 @@ public class RegisterMowerActivity extends AppCompatActivity {
 
     /**
      * Launch the MyCameraActivity Intent to take a photo of the mower
+     *
      * @param view You are required to pass this through
      */
-    public void takePhoto(View view){
+    public void takePhoto(View view) {
         Intent sendStuff = new Intent(this, MyCameraActivity.class);
         startActivity(sendStuff);
     }
@@ -33,15 +34,16 @@ public class RegisterMowerActivity extends AppCompatActivity {
      * to variables. Next we need to check to make sure none of them are
      * blank and fit all of our requirements. If all of that passes, we can
      * submit their mower to the database.
+     *
      * @param view You are required to pass this through
      */
-    public void onSubmit(View view){
-        Log.w(className,"Getting text from fields and setting variables.");
-        EditText modelText = (EditText)findViewById(R.id.model);
-        EditText makeText = (EditText)findViewById(R.id.make);
-        EditText dateText = (EditText)findViewById(R.id.date);
-        EditText addressText = (EditText)findViewById(R.id.address);
-        EditText conditionText = (EditText)findViewById(R.id.condition);
+    public void onSubmit(View view) {
+        Log.w(className, "Getting text from fields and setting variables.");
+        EditText modelText = (EditText) findViewById(R.id.model);
+        EditText makeText = (EditText) findViewById(R.id.make);
+        EditText dateText = (EditText) findViewById(R.id.date);
+        EditText addressText = (EditText) findViewById(R.id.address);
+        EditText conditionText = (EditText) findViewById(R.id.condition);
         String model = modelText.getText().toString();
         String make = makeText.getText().toString();
         String date = dateText.getText().toString();
@@ -53,7 +55,7 @@ public class RegisterMowerActivity extends AppCompatActivity {
         // Check for a blank make field.
         if (make.length() == 0) {
             valid = false;
-            TextView t = (TextView)findViewById(R.id.errorBox);
+            TextView t = (TextView) findViewById(R.id.errorBox);
             t.setTextColor(Color.parseColor("#FF0000"));
             t.setText(R.string.blank_make);
         }
@@ -61,7 +63,7 @@ public class RegisterMowerActivity extends AppCompatActivity {
         // Make sure they entered their model
         if (model.length() == 0) {
             valid = false;
-            TextView t = (TextView)findViewById(R.id.errorBox);
+            TextView t = (TextView) findViewById(R.id.errorBox);
             t.setTextColor(Color.parseColor("#FF0000"));
             t.setText(R.string.blank_model);
         }
@@ -69,7 +71,7 @@ public class RegisterMowerActivity extends AppCompatActivity {
         // Ensure they entered a date
         if (date.length() == 0) {
             valid = false;
-            TextView t = (TextView)findViewById(R.id.errorBox);
+            TextView t = (TextView) findViewById(R.id.errorBox);
             t.setTextColor(Color.parseColor("#FF0000"));
             t.setText(R.string.blank_date);
         }
@@ -77,7 +79,7 @@ public class RegisterMowerActivity extends AppCompatActivity {
         // Can you see the pattern here?
         if (address.length() == 0) {
             valid = false;
-            TextView t = (TextView)findViewById(R.id.errorBox);
+            TextView t = (TextView) findViewById(R.id.errorBox);
             t.setTextColor(Color.parseColor("#FF0000"));
             t.setText(R.string.blank_address);
         }
@@ -85,7 +87,7 @@ public class RegisterMowerActivity extends AppCompatActivity {
         // Still doing the same thing
         if (condition.length() == 0) {
             valid = false;
-            TextView t = (TextView)findViewById(R.id.errorBox);
+            TextView t = (TextView) findViewById(R.id.errorBox);
             t.setTextColor(Color.parseColor("#FF0000"));
             t.setText(R.string.blank_condition);
         }
@@ -97,7 +99,7 @@ public class RegisterMowerActivity extends AppCompatActivity {
             t.setTextColor(Color.parseColor("#246820"));
             t.setText(R.string.submit_success);
         } else {
-            Log.w(className,"You messed something up really bad...");
+            Log.w(className, "You messed something up really bad...");
         }
 
     }

@@ -10,6 +10,7 @@
     <!-- Login Page Strings -->
     <string name="no_username_error">You must enter a username!</string>
     <string name="no_password_error">You must enter a password!</string>
+    <string name="bad_creds_error">Please enter a valid Username &amp; Password!</string>
 
     <!-- Main Activity Strings -->
     <string name="feedback_ok">Thank you for sending feedback!</string>

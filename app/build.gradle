@@ -28,8 +28,9 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.0.0'
     compile 'me.dm7.barcodescanner:zxing:1.9'
     compile 'com.android.support:design:25.0.0'
-    compile 'com.j256.ormlite:ormlite-core:4.48'
-    compile 'com.j256.ormlite:ormlite-android:4.48'
     compile 'com.google.firebase:firebase-ads:9.8.0'
+    compile files('libs/google-voice-java-1.14-java6.jar')
+    compile files('libs/zxing-javase.jar')
+    compile files('libs/zxing.jar')
     testCompile 'junit:junit:4.12'
 }
