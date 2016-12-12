@@ -174,6 +174,8 @@ public class RegisterActivity extends AppCompatActivity {
             Log.w("Hashed", hash);
             Log.w("Pin", pin);
 
+            new GetQueryResponse().insertIntoDB(firstName, lastName, username, email, phone1, phone2, hash, salt, pin);
+
         } else {
             Log.w(className, "You messed something up really bad...");
         }

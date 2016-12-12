@@ -1,22 +1,3 @@
-/*
-
-
-
-
-
-
-
-              Still gotta do this one
-
-
-
-
-
-
-
-
-
-*/
 package com.example.shipwreck1028.mower;
 
 import android.app.Activity;
@@ -51,17 +32,17 @@ public class MyCameraActivity extends Activity {
         // Check if they are running Marshmallow
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             // See if they granted Camera permission
-            if (checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED &&
-                    checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            if (checkSelfPermission(android.Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED &&
+                    checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                 String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
                 Log.w("Time Stamp", timeStamp);
                 dispatchTakePictureIntent();
             } else {
-                if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
+                if (shouldShowRequestPermissionRationale(android.Manifest.permission.CAMERA)) {
                     Toast.makeText(this, "Camera permission is needed to show the QR code scanner",
                             Toast.LENGTH_SHORT).show();
                 }
-                requestPermissions(new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CAMERA);
+                requestPermissions(new String[]{android.Manifest.permission.CAMERA, android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CAMERA);
             }
         }
     }

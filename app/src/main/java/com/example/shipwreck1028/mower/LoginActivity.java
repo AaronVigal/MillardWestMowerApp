@@ -2,29 +2,34 @@ package com.example.shipwreck1028.mower;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
-
+import java.security.MessageDigest;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class LoginActivity extends AppCompatActivity {
 
     String className = this.getClass().getSimpleName();
     Boolean Valid = false;
+    private static final SimpleDateFormat month = new SimpleDateFormat("MM");
+    private static final SimpleDateFormat day = new SimpleDateFormat("dd");
+    private static final SimpleDateFormat minute = new SimpleDateFormat("mm");
+    private static final SimpleDateFormat hour = new SimpleDateFormat("HH");
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
     }
 
     /**
@@ -37,6 +42,7 @@ public class LoginActivity extends AppCompatActivity {
         // Open a new RegisterActivity, thi is referenced just once on the
         // click of the "register" TextView under the submit button.
         Log.w(className, "Opening a new Register Activity");
+
         Intent newRegisterWindow = new Intent(this, RegisterActivity.class);
         startActivity(newRegisterWindow);
     }
@@ -59,33 +65,98 @@ public class LoginActivity extends AppCompatActivity {
         Log.w("Username", username);
         Log.w("Password", password);
 
-        boolean valid = true;
+        boolean hasEnteredUandP = true;
         // Check for the following:
         // 1. Empty Username Field
         // 2. Empty Password Field
         if (!(username.length() > 0)) {
-            valid = false;
+            hasEnteredUandP = false;
             TextView t = (TextView) findViewById(R.id.errorBox);
             t.setTextColor(Color.parseColor("#FF0000"));
             t.setText(R.string.no_username_error);
         } else if (!(password.length() > 0)) {
-            valid = false;
+            hasEnteredUandP = false;
             TextView t = (TextView) findViewById(R.id.errorBox);
             t.setTextColor(Color.parseColor("#FF0000"));
             t.setText(R.string.no_password_error);
         }
 
-        new MyTask().execute(username);
+
+        Date date = new Date();
+        String APIKey = "1028" + (Integer.parseInt((hour.format(date))) - 1) + "99" + ((month.format(date))) + "02" + (31 - (Integer.parseInt(((day.format(date)))))) + "43";
+        String query = "SELECT salt FROM users WHERE username='" + username + "';";
+        String oldString = "http://aaronvigal.com/querydb.php?token=" + APIKey + "&query=" + query;
+        String urlString = "";
+        for (int i = 0; i < oldString.length(); i++) {
+            if (oldString.charAt(i) == ' ') {
+                urlString += "%20";
+            } else if (oldString.charAt(i) == '\'') {
+                urlString += "%27";
+            } else {
+                urlString += oldString.charAt(i);
+            }
+        }
+
+        Log.w(className, urlString);
+        String salt = new GetQueryResponse().getResponseFromUrl(urlString);
+        Log.w(className, salt);
+
+        String query2 = "SELECT password FROM users WHERE username='" + username + "' AND salt='" + salt + "';";
+        String oldString2 = "http://aaronvigal.com/querydb.php?token=" + APIKey + "&query=" + query2;
+        String urlString2 = "";
+        for (int i = 0; i < oldString2.length(); i++) {
+            if (oldString2.charAt(i) == ' ') {
+                urlString2 += "%20";
+            } else if (oldString2.charAt(i) == '\'') {
+                urlString2 += "%27";
+            } else {
+                urlString2 += oldString2.charAt(i);
+            }
+        }
+        Log.w(className, urlString2);
+        String passwordFromDB = new GetQueryResponse().getResponseFromUrl(urlString2);
+        Log.w(className, passwordFromDB);
+
+
+        MessageDigest md = null;
+        String newPass = password + salt;
+
+        try {
+            md = MessageDigest.getInstance("SHA-256");
+        } catch (Exception e) {
+            Log.w(className, "Invalid hash type");
+        }
+
+        try {
+            md.update(newPass.getBytes("UTF-8"));
+        } catch (Exception e) {
+            Log.w(className, "Invalid encoding");
+        }
+
+        byte[] digest = md.digest();
+        String hash = String.format("%064x", new java.math.BigInteger(1, digest));
+
+        Log.w(className, hash);
+        if (!(hash.equals(passwordFromDB))) {
+            setValid(true);
+        } else {
+            setValid(false);
+        }
 
         // If Username & Password have passed all other tests,
         // create a new intent and move them to the MainActivity.
-        if (valid) {
-            Log.w("Bleh", Valid + "");
+        if (hasEnteredUandP) {
             if (getValid()) {
                 TextView t = (TextView) findViewById(R.id.errorBox);
                 t.setTextColor(Color.parseColor("#FF0000"));
                 t.setText(R.string.bad_creds_error);
             } else {
+                if (salt.equals("")) {
+                    TextView t = (TextView) findViewById(R.id.errorBox);
+                    t.setTextColor(Color.parseColor("#FF0000"));
+                    t.setText(R.string.bad_creds_error);
+                }
+                new StoreInfo().saveInfo(username);
                 Intent newRegisterWindow = new Intent(this, MainActivity.class);
                 startActivity(newRegisterWindow);
             }
@@ -101,50 +172,11 @@ public class LoginActivity extends AppCompatActivity {
         Log.w(className, "Back button pressed");
     }
 
-    private void setValid() {
-        Valid = true;
+    private void setValid(boolean set) {
+        Valid = set;
     }
 
     private Boolean getValid() {
         return Valid;
-    }
-
-    class MyTask extends AsyncTask<String, Void, String> {
-        protected String doInBackground(String... strings) {
-            String line = "";
-            String username = "";
-            if (!(strings[0] == "")) {
-                username = strings[0];
-            }
-            String query = "SELECT id FROM users WHERE username='" + username + "';";
-            String oldString = "http://aaronvigal.com/querydb.php?token=102809911022543&query=" + query;
-            String urlString = "";
-            for (int i = 0; i < oldString.length(); i++) {
-                if (oldString.charAt(i) == ' ') {
-                    urlString += "%20";
-                } else if (oldString.charAt(i) == '\'') {
-                    urlString += "%27";
-                } else {
-                    urlString += oldString.charAt(i);
-                }
-            }
-            System.out.println(urlString);
-            try {
-                URL url = new URL(urlString);
-                BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
-                line = reader.readLine();
-                reader.close();
-            } catch (IOException e) {
-                System.out.println("Failed: " + e);
-            }
-            return line + "";
-        }
-
-        protected void onPostExecute(String result) {
-            Log.w("MySQL Request", result);
-            if (!(result == null || result.equals("null"))) {
-                setValid();
-            }
-        }
     }
 }

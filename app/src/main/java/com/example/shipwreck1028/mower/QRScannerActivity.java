@@ -41,8 +41,8 @@ public class QRScannerActivity extends Activity implements ZXingScannerView.Resu
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             // Check to see if they have granted the application permission to use the camera
             // and to write to external storage to save the photo.
-            if (checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED &&
-                    checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            if (checkSelfPermission(android.Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED &&
+                    checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                 // Run the QR Code Scanner using ZXingScannerView Library.
                 mScannerView = new ZXingScannerView(this);
                 setContentView(mScannerView);
@@ -51,10 +51,10 @@ public class QRScannerActivity extends Activity implements ZXingScannerView.Resu
             } else {
                 // We were denied Camera permission so by Android requirements, we are supposed to
                 // explain why we need them and then ask them for permission again.
-                if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
+                if (shouldShowRequestPermissionRationale(android.Manifest.permission.CAMERA)) {
                     Toast.makeText(this, R.string.permission_explain, Toast.LENGTH_SHORT).show();
                 }
-                requestPermissions(new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CAMERA);
+                requestPermissions(new String[]{android.Manifest.permission.CAMERA, android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CAMERA);
             }
         }
     }
